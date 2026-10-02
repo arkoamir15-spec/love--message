@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>برای تو</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+    background:#09070b;
+    color:white;
+}
+
+.scene{
+    position:relative;
+    width:100%;
+    height:100dvh;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #54243d 0%,
+            #24101c 35%,
+            #0b080d 75%
+        );
+}
+
+/* نور پس زمینه */
+
+.glow{
+    position:absolute;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.35;
+    animation:glowMove 7s infinite alternate ease-in-out;
+}
+
+.glow1{
+    background:#e05b91;
+    top:-80px;
+    right:-80px;
+}
+
+.glow2{
+    background:#714be0;
+    bottom:-100px;
+    left:-90px;
+    animation-delay:2s;
+}
+
+@keyframes glowMove{
+    from{
+        transform:translate(0,0);
+    }
+    to{
+        transform:translate(20px,30px);
+    }
+}
+
+/* ستاره ها */
+
+.stars{
+    position:absolute;
+    inset:0;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:white;
+    opacity:.4;
+    animation:
+        twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{
+        opacity:.15;
+        transform:scale(.6);
+    }
+    to{
+        opacity:.9;
+        transform:scale(1.4);
+    }
+}
+
+/* صفحه اول */
+
+.intro{
+    position:absolute;
+    inset:0;
+    z-index:10;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+    transition:
+        opacity 1s,
+        transform 1s;
+}
+
+.intro.hide{
+    opacity:0;
+    transform:scale(1.08);
+    pointer-events:none;
+}
+
+.topText{
+    color:#dba6bb;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.title{
+    font-size:
+        clamp(38px,12vw,65px);
+    font-weight:bold;
+    letter-spacing:1px;
+    text-shadow:
+        0 0 30px #e77ca755;
+}
+
+.description{
+    max-width:340px;
+    color:#c7bec4;
+    line-height:2;
+    font-size:15px;
+    margin:
+        20px 0 30px;
+}
+
+.openButton{
+    border:0;
+    padding:16px 38px;
+    border-radius:50px;
+    background:
+        linear-gradient(
+            135deg,
+            #dc7198,
+            #a94d73
+        );
+    color:white;
+    font-size:16px;
+    font-family:inherit;
+    box-shadow:
+        0 10px 40px #d768913d;
+    transition:.2s;
+}
+
+.openButton:active{
+    transform:scale(.94);
+}
+
+/* صحنه نامه */
+
+.letterScene{
+    position:absolute;
+    inset:0;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transform:scale(.8);
+    pointer-events:none;
+    transition:
+        opacity 1s,
+        transform 1s;
+}
+
+.letterScene.show{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+}
+
+/* پاکت */
+
+.envelope{
+    position:relative;
+    width:82vw;
+    max-width:390px;
+    height:240px;
+    perspective:900px;
+}
+
+.envelopeBack{
+    position:absolute;
+    inset:0;
+    border-radius:12px;
+    background:
+        linear-gradient(
+            135deg,
+            #b85d7d,
+            #71354f
+        );
+    box-shadow:
+        0 30px 80px #0009;
+}
+
+/* نامه */
+
+.paper{
+    position:absolute;
+    left:7%;
+    right:7%;
+    bottom:8%;
+    height:88%;
+    background:
+        linear-gradient(
+            180deg,
+            #fffdfb,
+            #f5e9ed
+        );
+    border-radius:10px;
+    padding:30px 18px;
+    color:#4d2939;
+    text-align:center;
+    z-index:2;
+
+    transform:
+        translateY(55px);
+
+    opacity:0;
+
+    transition:
+        transform 1.4s ease,
+        opacity 1.4s ease;
+}
+
+.envelope.open .paper{
+    transform:
+        translateY(-110px);
+
+    opacity:1;
+}
+
+.paperSmall{
+    font-size:13px;
+    color:#9c6078;
+    margin-bottom:16px;
+}
+
+.loveText{
+    font-size:
+        clamp(26px,8vw,42px);
+    font-weight:bold;
+    color:#a74670;
+    margin:15px 0;
+    text-shadow:
+        0 3px 15px #a7467025;
+}
+
+.paperLine{
+    width:70px;
+    height:2px;
+    background:#d99ab2;
+    margin:18px auto;
+}
+
+.from{
+    font-size:15px;
+    color:#785264;
+}
+
+/* در پاکت */
+
+.flap{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:58%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #c66b8d,
+            #9a4868
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        );
+
+    transform-origin:top;
+
+    transition:
+        transform 1s ease;
+
+    z-index:4;
+}
+
+.envelope.open .flap{
+    transform:
+        rotateX(180deg);
+
+    z-index:1;
+}
+
+/* دکمه پایان */
+
+.nextButton{
+    position:absolute;
+    bottom:8%;
+    z-index:20;
+
+    border:0;
+    padding:14px 30px;
+
+    border-radius:50px;
+
+    background:white;
+    color:#71354f;
+
+    font-family:inherit;
+    font-size:15px;
+    font-weight:bold;
+
+    opacity:0;
+
+    transition:
+        opacity 1s;
+}
+
+.nextButton.show{
+    opacity:1;
+}
+
+.nextButton:active{
+    transform:scale(.95);
+}
+
+/* صفحه آخر */
+
+.final{
+    position:absolute;
+    inset:0;
+    z-index:50;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+    padding:30px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #4b2035,
+            #100a10 70%
+        );
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:
+        opacity 1.5s;
+}
+
+.final.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.finalTitle{
+    font-size:
+        clamp(32px,9vw,55px);
+
+    font-weight:bold;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 35px #ec86ad80;
+
+    margin-bottom:25px;
+}
+
+.finalMessage{
+    max-width:340px;
+
+    color:#ded4d9;
+
+    font-size:17px;
+
+    line-height:2.3;
+}
+
+.signature{
+    margin-top:35px;
+
+    font-size:20px;
+
+    color:#e38cab;
+
+    opacity:0;
+
+    transform:translateY(15px);
+
+    animation:
+        signatureShow 1.5s
+        1s forwards;
+}
+
+@keyframes signatureShow{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ذرات نور */
+
+.particle{
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:#f2a4bd;
+
+    pointer-events:none;
+
+    animation:
+        particleUp 5s linear forwards;
+}
+
+@keyframes particleUp{
+
+    0%{
+        opacity:0;
+        transform:
+            translateY(0)
+            scale(.5);
+    }
+
+    20%{
+        opacity:.8;
+    }
+
+    100%{
+        opacity:0;
+        transform:
+            translateY(-650px)
+            scale(1.5);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="scene">
+
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+
+    <div class="stars" id="stars"></div>
+
+
+    <!-- صفحه اول -->
+
+    <section class="intro" id="intro">
+
+        <div class="topText">
+            یه چیز کوچیک برای تو
+        </div>
+
+        <div class="title">
+            گوگولی
+        </div>
+
+        <div class="description">
+            این یه پیام معمولی نیست...
+            <br>
+            قبل از اینکه بری، نامه رو باز کن.
+        </div>
+
+        <button
+            class="openButton"
+            id="openButton">
+            باز کردن نامه
+        </button>
+
+    </section>
+
+
+    <!-- نامه -->
+
+    <section
+        class="letterScene"
+        id="letterScene">
+
+        <div
+            class="envelope"
+            id="envelope">
+
+            <div class="envelopeBack"></div>
+
+            <div class="paper">
+
+                <div class="paperSmall">
+                    یه حرف از ته دل
+                </div>
+
+                <div class="loveText">
+                    دوست دارم گوگولی
+                </div>
+
+                <div class="paperLine"></div>
+
+                <div class="from">
+                    از طرف امیر
+                </div>
+
+            </div>
+
+            <div class="flap"></div>
+
+        </div>
+
+        <button
+            class="nextButton"
+            id="nextButton">
+            آخرش رو ببین
+        </button>
+
+    </section>
+
+
+    <!-- پایان -->
+
+    <section
+        class="final"
+        id="final">
+
+        <div class="finalTitle">
+            برای تو
+        </div>
+
+        <div class="finalMessage">
+
+            شاید یه جمله ساده باشه،
+            ولی واقعاً از ته دلمه.
+
+            <br><br>
+
+            دوست دارم گوگولی
+
+        </div>
+
+        <div class="signature">
+            از طرف امیر
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/* ساخت ستاره‌ها */
+
+const stars =
+document.getElementById("stars");
+
+for(let i=0;i<80;i++){
+
+    const star =
+        document.createElement("div");
+
+    star.className="star";
+
+    star.style.left =
+        Math.random()*100+"%";
+
+    star.style.top =
+        Math.random()*100+"%";
+
+    star.style.animationDelay =
+        Math.random()*3+"s";
+
+    stars.appendChild(star);
+}
+
+
+/* عناصر */
+
+const intro =
+document.getElementById("intro");
+
+const openButton =
+document.getElementById("openButton");
+
+const letterScene =
+document.getElementById("letterScene");
+
+const envelope =
+document.getElementById("envelope");
+
+const nextButton =
+document.getElementById("nextButton");
+
+const final =
+document.getElementById("final");
+
+
+/* باز کردن نامه */
+
+openButton.addEventListener(
+    "click",
+    function(){
+
+        intro.classList.add("hide");
+
+        setTimeout(
+            function(){
+
+                letterScene.classList.add("show");
+
+                setTimeout(
+                    function(){
+
+                        envelope.classList.add("open");
+
+                        setTimeout(
+                            function(){
+
+                                nextButton.classList.add("show");
+
+                            },
+                            1500
+                        );
+
+                    },
+                    600
+                );
+
+            },
+            700
+        );
+
+    }
+);
+
+
+/* صفحه پایانی */
+
+nextButton.addEventListener(
+    "click",
+    function(){
+
+        letterScene.style.opacity="0";
+
+        setTimeout(
+            function(){
+
+                letterScene.style.display="none";
+
+                final.classList.add("show");
+
+                createParticles();
+
+            },
+            900
+        );
+
+    }
+);
+
+
+/* ذرات متحرک */
+
+function createParticles(){
+
+    for(let i=0;i<25;i++){
+
+        setTimeout(
+            function(){
+
+                const particle =
+                    document.createElement("div");
+
+                particle.className="particle";
+
+                particle.style.left =
+                    (5 + Math.random()*90)+"%";
+
+                particle.style.bottom =
+                    "-20px";
+
+                particle.style.animationDuration =
+                    (4 + Math.random()*3)+"s";
+
+                final.appendChild(particle);
+
+                setTimeout(
+                    function(){
+                        particle.remove();
+                    },
+                    7000
+                );
+
+            },
+            i*180
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
